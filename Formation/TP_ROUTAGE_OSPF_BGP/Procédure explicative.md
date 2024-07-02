@@ -4,7 +4,7 @@ Ce sont deux protocoles de routage essentiels pour la gestion efficace des rése
 
 # Commandes :
 
-# R32:
+**R32 :**
 - router bgp 300
 - neighbor 192.168.42.1 remote-as 100
 - neighbor 192.168.43.2 remote-as 200
@@ -16,7 +16,7 @@ Ce sont deux protocoles de routage essentiels pour la gestion efficace des rése
 - router-id 2.2.2.2
 - redistribute bgp 300 match internal external 
 
-# R31:
+**R31 :**
 - router ospf 1
 - router-id 10.10.10.10
 - network 192.168.31.0 0.0.0.255 area 0
