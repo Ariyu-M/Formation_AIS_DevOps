@@ -29,7 +29,7 @@ WORKDIR /app/vulnerablelightapp
 RUN mkdir -p /var/log/applogs
 
 # Commande par défaut pour démarrer votre application
-CMD ["dotnet", "run", "--url=https://0.0.0.0:3000", "--log-file=/var/log/applogs/app.log"]
+CMD ["dotnet", "run", "--url=https://0.0.0.0:3000"]
 
 # Création d'un volume nommé pour les logs
 VOLUME /var/log/applogs
