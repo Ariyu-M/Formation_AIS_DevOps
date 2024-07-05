@@ -25,11 +25,5 @@ COPY VulnerableLightApp-main /app/vulnerablelightapp
 # Définir le répertoire de travail
 WORKDIR /app/vulnerablelightapp
 
-# Créer un répertoire pour les logs à l'intérieur du conteneur
-RUN mkdir -p /var/log/applogs
-
 # Commande par défaut pour démarrer votre application
 CMD ["dotnet", "run", "--url=https://0.0.0.0:3000"]
-
-# Création d'un volume nommé pour les logs
-VOLUME /var/log/applogs
