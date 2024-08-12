@@ -1,0 +1,74 @@
+services:
+  sftpgo:
+    image: "drakkan/sftpgo:v2.6.2-plugins"
+    restart: always
+    depends_on:
+      - mysql-sftpgo
+    networks:
+      - default
+    ports:
+      # HTTP
+      - "8080"
+      # WEBDAV
+      - "8090"
+      # SFTP
+      - "2022:2022"
+    environment:
+      SFTPGO_WEBDAVD__BINDINGS__0__PORT: 8090
+      SFTPGO_HTTPD__BINDINGS__0__PORT: 8080
+      SFTPGO_DATA_PROVIDER__DRIVER: "mysql"
+      SFTPGO_DATA_PROVIDER__NAME: "sftpgo"
+      SFTPGO_DATA_PROVIDER__HOST: "mysql-sftpgo"
+      SFTPGO_DATA_PROVIDER__PORT: 3306
+      SFTPGO_DATA_PROVIDER__USERNAME: "SQL_USER"
+      SFTPGO_DATA_PROVIDER__PASSWORD: "SQL_PASS"
+      SFTPGO_COMMON__DEFENDER__ENABLED: true
+      SFTPGO_COMMON__DEFENDER__BAN_TIME: 10
+      SFTPGO_COMMON__DEFENDER__BAN_TIME_INCREMENT: 200
+      SFTPGO_COMMON__DEFENDER__THRESHOLD: 8
+      SFTPGO_COMMON__DEFENDER__OBSERVATION_TIME: 10
+      SFTPGO_PLUGIN_AUTH_CA_CERTIFICATES: "/var/lib/sftpgo/certificats.crt"
+      SFTPGO_PLUGIN_AUTH_LDAP_URL: "ldaps://ldap.exemple.lan:636"
+      SFTPGO_PLUGIN_AUTH_LDAP_BASE_DN: "dc=exemple,dc=lan"
+      SFTPGO_PLUGIN_AUTH_LDAP_BIND_DN: "CN=nobody,OU=User,OU=Exemple,DC=lan"
+      SFTPGO_PLUGIN_AUTH_LDAP_PASSWORD: "LDAP_PASSWORD"
+      SFTPGO_PLUGIN_AUTH_LDAP_SEARCH_QUERY: "(&(objectClass=Exemple)(sAMAccountType=12345678910)(sAMAccountName=%username%))"
+      SFTPGO_PLUGIN_AUTH_LDAP_GROUP_ATTRIBUTES: "memberOf"
+      SFTPGO_PLUGIN_AUTH_PRIMARY_GROUP_PREFIX: "sftpgo-"
+      SFTPGO_PLUGIN_AUTH_REQUIRE_GROUPS: true
+      SFTPGO_PLUGIN_AUTH_CACHE_TIME: 60
+      SFTPGO_PLUGINS__0__TYPE: auth
+      SFTPGO_PLUGINS__0__AUTH_OPTIONS__SCOPE: 5
+      SFTPGO_PLUGINS__0__CMD: "/usr/local/bin/sftpgo-plugin-auth"
+      SFTPGO_PLUGINS__0__ARGS: "serve"
+      SFTPGO_PLUGINS__0__AUTO_MTLS: 1
+      SFTPGO_SMTP__HOST: "smtp.exemple.com"
+      SFTPGO_SMTP__PORT: 25
+      SFTPGO_SMTP__FROM: "SFTPGo <mail@exemple.com"
+      SFTPGO_SMTP__USER: ""
+      SFTPGO_SMTP__PASSWORD: ""
+      SFTPGO_SMTP__auth_type: 0
+      SFTPGO_SMTP__encryption: 0
+    volumes:
+      - "sftpgo-data:/srv/sftpgo"
+  
+  mysql-sftpgo:
+    image: mysql:latest
+    restart: always
+    networks:
+      - default
+    environment:
+      MYSQL_DATABASE: "sftpgo"
+      MYSQL_USER: "SQL_USER"
+      MYSQL_PASSWORD: "SQL_PASS"
+      MYSQL_ROOT_PASSWORD: "SQL_ROOT_PASS"
+    volumes:
+      - "sftpgo-mysql-data:/var/lib/mysql"
+
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  sftpgo-data: 
+  sftpgo-mysql-data:
