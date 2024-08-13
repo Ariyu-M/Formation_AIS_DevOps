@@ -60,7 +60,3 @@ jobs:
       - name: Terraform Plan
         run: |
           docker run --rm -v "${{ github.workspace }}/Projets/Template/SFTPGo/Terraform config:/workspace" -w /workspace hashicorp/terraform:1.9.2 plan
-
-      - name: Terraform Apply
-        run: |
-          docker run --rm -v "${{ github.workspace }}/Projets/Template/SFTPGo/Terraform config:/workspace" -w /workspace hashicorp/terraform:1.9.2 apply -auto-approve -input=false -lock=false -no-color
