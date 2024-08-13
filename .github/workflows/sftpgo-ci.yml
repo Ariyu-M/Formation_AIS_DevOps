@@ -38,7 +38,7 @@ jobs:
 
       - name: Tear down Docker Compose
         if: always()
-        run: docker compose -f Projets/Template/SFTPGo/docker-compose.yml 
+        run: docker compose -f Projets/Template/SFTPGo/docker-compose.yml down
 
   terraform:
     name: Test Terraform
@@ -49,12 +49,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Terraform Init, Validate, Plan, and Apply
+      - name: Terraform Init
         run: |
-          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 \
-          sh -c "
-          terraform init &&
-          terraform validate &&
-          terraform plan &&
-          terraform apply -auto-approve -input=false -lock=false -no-color
-          "
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 init
+
+      - name: Terraform Validate
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 validate
+
+      - name: Terraform Plan
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 plan
+
+      - name: Terraform Apply
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 apply -auto-approve -input=false -lock=false -no-color
