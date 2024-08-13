@@ -4,9 +4,14 @@ on:
   push:
     branches:
       - main
+    paths:
+      - SFTPGo/**
+
   pull_request:
     branches:
       - main
+    paths:
+      - SFTPGo/**
 
 jobs:
   docker-compose:
@@ -18,18 +23,13 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set up Docker Compose
-        uses: docker://docker/compose:latest
-        with:
-          entrypoint: /bin/sh
-          args: |
-            -c "docker-compose up -d --build && docker-compose ps"
+        run: |
+          docker-compose up -d --build
+          docker-compose ps
 
       - name: Tear down Docker Compose
         if: always()
-        uses: docker://docker/compose:latest
-        with:
-          entrypoint: /bin/sh
-          args: docker-compose down
+        run: docker-compose down
 
   terraform:
     name: Test Terraform
@@ -41,13 +41,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Terraform Init, Validate, Plan, and Apply
-        uses: docker://hashicorp/terraform:1.9.2
-        with:
-          entrypoint: /bin/sh
-          args: |
-            -c "
-            terraform init &&
-            terraform validate &&
-            terraform plan &&
-            terraform apply -auto-approve -input=false -lock=false -no-color
-            "
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 \
+          sh -c "
+          terraform init &&
+          terraform validate &&
+          terraform plan &&
+          terraform apply -auto-approve -input=false -lock=false -no-color
+          "
