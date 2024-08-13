@@ -5,13 +5,13 @@ on:
     branches:
       - main
     paths:
-      - Docker & Terraform/SFTPGo/**
+      - Docker & Terraform/Template/SFTPGo/**
 
   pull_request:
     branches:
       - main
     paths:
-      - Docker & Terraform/SFTPGo/**
+      - Docker & Terraform/Template/SFTPGo/**
 
 jobs:
   docker-compose:
