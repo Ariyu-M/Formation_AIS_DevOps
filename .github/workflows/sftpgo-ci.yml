@@ -31,14 +31,14 @@ jobs:
 
       - name: Build and run Docker Compose
         run: |
-          docker compose -f /Projets/Template/SFTPGo/docker-compose.yml up -d --build
+          docker compose -f Projets/Template/SFTPGo/docker-compose.yml up -d --build
           
       - name: Verify services are running
         run: docker compose ps
 
       - name: Tear down Docker Compose
         if: always()
-        run: docker compose -f /Projets/Template/SFTPGo/docker-compose.yml 
+        run: docker compose -f Projets/Template/SFTPGo/docker-compose.yml 
 
   terraform:
     name: Test Terraform
