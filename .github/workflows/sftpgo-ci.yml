@@ -51,16 +51,16 @@ jobs:
 
       - name: Terraform Init
         run: |
-          docker run --rm -v ${{ github.workspace }}:/Projets/Template/SFTPGo/Terraform config/ -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 init
+          docker run --rm -v ${{ github.workspace }} -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 init
 
       - name: Terraform Validate
         run: |
-          docker run --rm -v ${{ github.workspace }}:/Projets/Template/SFTPGo/Terraform config/ -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 validate
+          docker run --rm -v ${{ github.workspace }} -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 validate
 
       - name: Terraform Plan
         run: |
-          docker run --rm -v ${{ github.workspace }}:/Projets/Template/SFTPGo/Terraform config/ -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 plan
+          docker run --rm -v ${{ github.workspace }} -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 plan
 
       - name: Terraform Apply
         run: |
-          docker run --rm -v ${{ github.workspace }}:/Projets/Template/SFTPGo/Terraform config/ -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 apply -auto-approve -input=false -lock=false -no-color
+          docker run --rm -v ${{ github.workspace }} -w Projets/Template/SFTPGo/Terraform config/ hashicorp/terraform:1.9.2 apply -auto-approve -input=false -lock=false -no-color
