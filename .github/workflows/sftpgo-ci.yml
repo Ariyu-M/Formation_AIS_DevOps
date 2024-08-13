@@ -29,7 +29,6 @@ jobs:
 
       - name: Build and run Docker Compose
         run: |
-          cd /Projets/Template/SFTPGo/
           docker-compose up -d --build
           
       - name: Verify services are running
@@ -50,7 +49,6 @@ jobs:
 
       - name: Terraform Init, Validate, Plan, and Apply
         run: |
-          cd /Projets/Template/SFTPGo/Terraform config
           docker run --rm -v ${{ github.workspace }}:/workspace -w /workspace hashicorp/terraform:1.9.2 \
           sh -c "
           terraform init &&
