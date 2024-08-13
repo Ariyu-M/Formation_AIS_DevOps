@@ -15,7 +15,7 @@ on:
 
 jobs:
   docker-compose:
-    name: Build Docker Compose
+    name: Test Docker Compose
     runs-on: ubuntu-latest
 
     steps:
@@ -27,10 +27,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install docker-compose -y
 
-      - name: Set up Docker Compose
+      - name: Build and run Docker Compose
         run: |
-          docker-compose up -d
-          docker-compose ps
+          docker-compose up -d --build
+          
+      - name: Verify services are running
+        run: docker-compose ps
 
       - name: Tear down Docker Compose
         if: always()
