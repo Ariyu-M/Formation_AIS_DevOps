@@ -34,7 +34,7 @@ jobs:
           docker compose -f Projets/Template/SFTPGo/docker-compose.yml up -d --build
           
       - name: Verify services are running
-        run: docker compose ps
+        run: docker compose -f Projets/Template/SFTPGo/docker-compose.yml ps
 
       - name: Tear down Docker Compose
         if: always()
