@@ -9,5 +9,5 @@ terraform {
 provider "sftpgo" {
   host     = "https://localhost:8080"
   username = var.sftpgo_admin_user
-  password = "PASSWORD"
+  password = "password"
 }
