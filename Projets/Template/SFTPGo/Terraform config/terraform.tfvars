@@ -7,7 +7,6 @@ File: {{VirtualPath}}.
 File size: {{FileSize}}o.
 Client IP address: {{IP}}.
 
-Have a good day.
 
 SFTPGO
 EOF
