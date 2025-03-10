@@ -11,7 +11,7 @@ resource "sftpgo_rule" "event_ip_banned" {
 }
 
 resource "sftpgo_rule" "event_shared" {
-    name    = "Event Shared"
+    name    = "Event Shared."
     status  = 1
     trigger = 1
     conditions = {
